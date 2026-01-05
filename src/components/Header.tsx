@@ -1,5 +1,5 @@
 import { FaBell, FaCog, FaSignOutAlt, FaSearch, FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface HeaderProps {
     userName?: string;
@@ -8,6 +8,13 @@ interface HeaderProps {
 }
 
 const Header = ({ userName = "Usuario", userRole = "Estudiante", onLogout }: HeaderProps) => {
+    const location = useLocation();
+
+    // Determinar la ruta de perfil según el rol actual
+    const perfilPath = location.pathname.startsWith('/profesor')
+        ? '/profesor/perfil'
+        : '/estudiante/perfil';
+
     return (
         <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-6 py-4">
@@ -54,7 +61,7 @@ const Header = ({ userName = "Usuario", userRole = "Estudiante", onLogout }: Hea
                         <div className="h-8 w-px bg-gray-200"></div>
 
                         {/* User Profile */}
-                        <Link to="/perfil" className="flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 transition-colors">
+                        <Link to={perfilPath} className="flex items-center gap-3 hover:bg-gray-50 rounded-lg p-2 transition-colors">
                             <div className="text-right hidden sm:block">
                                 <div className="text-sm font-semibold text-gray-900">{userName}</div>
                                 <div className="text-xs text-gray-500">{userRole}</div>

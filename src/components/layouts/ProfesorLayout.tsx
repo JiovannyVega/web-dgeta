@@ -3,7 +3,15 @@ import type { ReactNode } from "react";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import type { MenuItem } from "../Sidebar";
-import { FaChartLine, FaUsers, FaStar, FaExclamationTriangle, FaGraduationCap, FaEnvelope, FaChartBar } from "react-icons/fa";
+import {
+    FaChartLine,
+    FaStar,
+    FaEnvelope,
+    FaUsers,
+    FaExclamationTriangle,
+    FaGraduationCap,
+    FaChartBar
+} from "../../config/menuIcons";
 
 interface ProfesorLayoutProps {
     children: ReactNode;

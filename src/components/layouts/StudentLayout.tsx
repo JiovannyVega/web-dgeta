@@ -3,7 +3,14 @@ import type { ReactNode } from "react";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import type { MenuItem } from "../Sidebar";
-import { FaChartLine, FaClipboardCheck, FaFileAlt, FaEnvelope, FaStar, FaUser } from "react-icons/fa";
+import {
+    FaChartLine,
+    FaStar,
+    FaEnvelope,
+    FaClipboardCheck,
+    FaFileAlt,
+    FaUser
+} from "../../config/menuIcons";
 
 interface StudentLayoutProps {
     children: ReactNode;
