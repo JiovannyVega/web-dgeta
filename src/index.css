@@ -1,1 +1,113 @@
 @import "tailwindcss";
+
+/* Variables CSS personalizadas */
+:root {
+  /* Colores principales del sistema */
+  --color-primary: 22 101 52;
+  /* green-700 */
+  --color-primary-dark: 20 83 45;
+  /* green-800 */
+  --color-primary-light: 134 239 172;
+  /* green-300 */
+
+  /* Colores de fondo */
+  --color-background: 249 250 251;
+  /* gray-50 */
+  --color-background-dark: 17 24 39;
+  /* gray-900 */
+
+  /* Colores de texto */
+  --color-text-light: 31 41 55;
+  /* gray-800 */
+  --color-text-dark: 243 244 246;
+  /* gray-100 */
+
+  /* Colores de tarjetas */
+  --color-card-dark: 31 41 55;
+  /* gray-800 */
+
+  /* Colores de acento */
+  --color-accent-dark: 75 85 99;
+  /* gray-600 */
+}
+
+/* Estilos base */
+* {
+  border-color: theme('colors.gray.200');
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: theme('colors.gray.50');
+  color: theme('colors.gray.900');
+  min-height: 100vh;
+}
+
+/* Estilos para inputs y formularios */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  outline: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid theme('colors.green.500');
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+/* Botones */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: theme('colors.gray.100');
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: theme('colors.gray.300');
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: theme('colors.gray.400');
+}
+
+/* Gradientes personalizados */
+.bg-radial {
+  background: radial-gradient(circle, theme('colors.green.700'), theme('colors.green.950'));
+}
+
+/* Clases de utilidad para colores primarios */
+.bg-primary {
+  background-color: rgb(var(--color-primary));
+}
+
+.text-primary {
+  color: rgb(var(--color-primary));
+}
+
+.border-primary {
+  border-color: rgb(var(--color-primary));
+}
