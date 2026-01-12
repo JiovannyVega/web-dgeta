@@ -18,7 +18,7 @@ interface Semestre {
 }
 
 const CalificacionesEstudiante: React.FC = () => {
-  const [semestreActivo, setSemestreActivo] = useState("Primer semestre");
+  const [semestreActivo] = useState("Primer semestre");
 
   // Datos de ejemplo para diferentes semestres
   const semestres: Record<string, Semestre> = {

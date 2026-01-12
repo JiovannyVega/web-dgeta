@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Header from "../../components/Header";
-import Sidebar from "../../components/Sidebar";
 
 interface FormularioPrediccion {
   // Datos binarios (0-1)
@@ -323,8 +321,8 @@ const PrediccionEstudiante: React.FC = () => {
             <div className="resultado-card">
               <div
                 className={`resultado-item ${prediccion.abandonoEscuela === "Sí"
-                    ? "alerta-alta"
-                    : "alerta-baja"
+                  ? "alerta-alta"
+                  : "alerta-baja"
                   }`}
               >
                 <h3>¿Abandonará la escuela?</h3>
@@ -333,8 +331,8 @@ const PrediccionEstudiante: React.FC = () => {
 
               <div
                 className={`resultado-item ${prediccion.reprobaraOPasara === "Reprobará"
-                    ? "alerta-media"
-                    : "alerta-baja"
+                  ? "alerta-media"
+                  : "alerta-baja"
                   }`}
               >
                 <h3>¿Reprobará o pasará?</h3>
