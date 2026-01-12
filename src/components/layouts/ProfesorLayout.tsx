@@ -7,6 +7,7 @@ import {
     FaChartLine,
     FaStar,
     FaEnvelope,
+    FaUser,
     FaUsers,
     FaExclamationTriangle,
     FaGraduationCap,
@@ -26,6 +27,7 @@ const ProfesorLayout: React.FC<ProfesorLayoutProps> = ({ children }) => {
         { path: "/profesor/tutorias", icon: FaGraduationCap, label: "Tutorías" },
         { path: "/profesor/mensajes", icon: FaEnvelope, label: "Mensajes" },
         { path: "/profesor/prediccion", icon: FaChartBar, label: "Predicción" },
+        { path: "/profesor/perfil", icon: FaUser, label: "Perfil" },
     ];
 
     return (

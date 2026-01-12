@@ -11,6 +11,7 @@ import Tutorias from "./pages/profesor/Tutorias";
 import Mensajes from "./pages/profesor/Mensajes";
 import GrupoDetalles from "./pages/profesor/DetallesDeGrupo";
 import DetallesDeAlumno from "./pages/profesor/PerfilDelEstudiante";
+import PerfilProfesor from "./pages/profesor/PerfilProfesor";
 import PrediccionProfesor from "./pages/profesor/PrediccionEstudiante";
 
 // Páginas de Estudiante
@@ -45,6 +46,7 @@ function App() {
             <Route path="mensajes" element={<Mensajes />} />
             <Route path="detalles-alumno" element={<DetallesDeAlumno />} />
             <Route path="prediccion" element={<PrediccionProfesor />} />
+            <Route path="perfil" element={<PerfilProfesor />} />
           </Route>
 
           {/* Rutas de Estudiante */}
