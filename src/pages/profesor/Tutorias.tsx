@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProfesorLayout from "../../components/layouts/ProfesorLayout";
-import { FaPlus, FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const Tutorias: React.FC = () => {
   const [vistaActiva, setVistaActiva] = useState("programadas");
@@ -53,23 +53,20 @@ const Tutorias: React.FC = () => {
 
   return (
     <ProfesorLayout>
-      <div className="p-6 lg:p-8">
+      <div className="ui-page">
         {/* Page Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Tutorías</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Tutorías</h1>
             <p className="text-gray-600">Gestiona tus sesiones de tutoría</p>
           </div>
-          <button className="flex items-center gap-2 bg-green-800 text-white px-6 py-3 rounded-xl hover:bg-green-900 transition-colors">
-            <FaPlus />
-            Agendar Tutoría
-          </button>
+
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
-            onClick={() => setVistaActiva("programadas")}
+            aria-pressed={vistaActiva === "programadas"} onClick={() => setVistaActiva("programadas")}
             className={`px-6 py-3 rounded-xl font-medium transition-colors ${vistaActiva === "programadas"
               ? "bg-green-800 text-white"
               : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
@@ -78,7 +75,7 @@ const Tutorias: React.FC = () => {
             Programadas ({tutoriasProgramadas.length})
           </button>
           <button
-            onClick={() => setVistaActiva("completadas")}
+            aria-pressed={vistaActiva === "completadas"} onClick={() => setVistaActiva("completadas")}
             className={`px-6 py-3 rounded-xl font-medium transition-colors ${vistaActiva === "completadas"
               ? "bg-green-800 text-white"
               : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
@@ -94,20 +91,20 @@ const Tutorias: React.FC = () => {
             {tutoriasProgramadas.map((tutoria) => (
               <div
                 key={tutoria.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+                className="bg-white rounded-xl  border border-gray-200 p-6"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex flex-wrap items-start justify-between gap-4">
                   <div className="flex items-start gap-4 flex-1">
-                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                      <FaCalendarAlt className="text-blue-600 text-xl" />
+                    <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
+                      <FaCalendarAlt className="text-gray-700 text-xl" />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
                         <h3 className="font-bold text-gray-900">{tutoria.estudiante}</h3>
                         <span
                           className={`text-xs px-2 py-1 rounded-full font-medium ${tutoria.estado === "confirmada"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-yellow-100 text-yellow-700"
+                            ? "bg-green-100 text-green-900"
+                            : "bg-yellow-100 text-amber-900"
                             }`}
                         >
                           {tutoria.estado === "confirmada" ? "Confirmada" : "Pendiente"}
@@ -119,14 +116,7 @@ const Tutorias: React.FC = () => {
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <button className="px-4 py-2 bg-green-800 text-white rounded-lg hover:bg-green-900 transition-colors text-sm">
-                      Iniciar
-                    </button>
-                    <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm">
-                      Cancelar
-                    </button>
-                  </div>
+
                 </div>
               </div>
             ))}
@@ -139,18 +129,18 @@ const Tutorias: React.FC = () => {
             {tutoriasCompletadas.map((tutoria) => (
               <div
                 key={tutoria.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+                className="bg-white rounded-xl  border border-gray-200 p-6"
               >
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                    <FaCalendarAlt className="text-green-600 text-xl" />
+                    <FaCalendarAlt className="text-green-800 text-xl" />
                   </div>
-                  <div className="flex-1">
+                  <div className="min-w-0 flex-1">
                     <h3 className="font-bold text-gray-900 mb-2">{tutoria.estudiante}</h3>
                     <p className="text-sm text-gray-700 mb-2">{tutoria.tema}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                       <span>{tutoria.fecha} - {tutoria.hora}</span>
-                      <span className="text-green-600 font-medium">Duración: {tutoria.duracion}</span>
+                      <span className="text-green-800 font-medium">Duración: {tutoria.duracion}</span>
                     </div>
                   </div>
                 </div>

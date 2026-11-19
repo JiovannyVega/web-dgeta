@@ -63,25 +63,25 @@ const Mensajes: React.FC = () => {
 
   return (
     <ProfesorLayout>
-      <div className="p-6 lg:p-8">
+      <div className="ui-page">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mensajes</h1>
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">Mensajes</h1>
           <p className="text-gray-600">Comunícate con estudiantes y colegas</p>
         </div>
 
         {/* Search and Tabs */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6">
+        <div className="bg-white rounded-xl  border border-gray-200 mb-6">
           {/* Search */}
           <div className="p-6 border-b border-gray-200">
             <div className="relative">
               <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
-                placeholder="Buscar mensajes..."
+                aria-label="Buscar mensajes" placeholder="Buscar mensajes..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-800 "
               />
             </div>
           </div>
@@ -89,8 +89,8 @@ const Mensajes: React.FC = () => {
           {/* Tabs */}
           <div className="flex border-b border-gray-200">
             <button
-              onClick={() => setTabActiva("recibidos")}
-              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors relative ${tabActiva === "recibidos" ? "text-green-700" : "text-gray-600 hover:text-gray-900"
+              aria-pressed={tabActiva === "recibidos"} onClick={() => setTabActiva("recibidos")}
+              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors relative ${tabActiva === "recibidos" ? "text-green-900" : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               Recibidos
@@ -104,8 +104,8 @@ const Mensajes: React.FC = () => {
               )}
             </button>
             <button
-              onClick={() => setTabActiva("enviados")}
-              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors relative ${tabActiva === "enviados" ? "text-green-700" : "text-gray-600 hover:text-gray-900"
+              aria-pressed={tabActiva === "enviados"} onClick={() => setTabActiva("enviados")}
+              className={`flex-1 px-6 py-4 text-sm font-medium transition-colors relative ${tabActiva === "enviados" ? "text-green-900" : "text-gray-600 hover:text-gray-900"
                 }`}
             >
               Enviados
@@ -117,24 +117,24 @@ const Mensajes: React.FC = () => {
 
           {/* Messages List */}
           <div className="divide-y divide-gray-200">
-            {mensajesFiltrados.map((mensaje) => (
+            {!mensajesFiltrados.length && <p role="status" className="p-6 text-sm text-gray-600">No se encontraron mensajes. Prueba otra búsqueda.</p>}{mensajesFiltrados.map((mensaje) => (
               <div
                 key={mensaje.id}
-                className={`p-6 hover:bg-gray-50 transition-colors cursor-pointer ${!mensaje.leido ? "bg-blue-50" : ""
+                className={`p-6 hover:bg-gray-50 transition-colors ${!mensaje.leido ? "bg-gray-50" : ""
                   }`}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
                       <h3 className="font-semibold text-gray-900">{mensaje.remitente}</h3>
-                      {!mensaje.leido && <span className="w-2 h-2 bg-blue-600 rounded-full"></span>}
+                      {!mensaje.leido && <span className="text-xs font-medium text-green-800">Sin leer</span>}
                     </div>
                     <h4 className={`text-sm mb-1 ${!mensaje.leido ? "font-semibold text-gray-900" : "text-gray-700"}`}>
                       {mensaje.asunto}
                     </h4>
                     <p className="text-sm text-gray-600 line-clamp-2">{mensaje.preview}</p>
                   </div>
-                  <span className="text-xs text-gray-500 ml-4 whitespace-nowrap">{mensaje.fecha}</span>
+                  <span className="text-xs text-gray-600 ml-4 whitespace-nowrap">{mensaje.fecha}</span>
                 </div>
               </div>
             ))}

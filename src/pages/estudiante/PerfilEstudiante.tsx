@@ -1,390 +1,175 @@
-import React, { useState } from "react";
-import StudentLayout from "../../components/layouts/StudentLayout";
+import { useState } from "react";
+import { useRef } from "react";
+import type { FormEvent } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { FaSave, FaTimes, FaEdit } from "react-icons/fa";
+import { primary as primaryButton, secondary as secondaryButton, input } from "../../components/forms/AnnexShared";
+import StudentLayout from "../../components/layouts/StudentLayout";
+import { initialData } from "../../data/profile";
+import type { Section, Values } from "../../data/profile";
+import { readLocal, writeLocal, PROFILE_KEY } from "../../data/localRecords";
 
-const PerfilEstudiante: React.FC = () => {
-  // Estados para modo edición
-  const [editandoPersonal, setEditandoPersonal] = useState(false);
-  const [editandoContacto, setEditandoContacto] = useState(false);
-  const [editandoDomicilio, setEditandoDomicilio] = useState(false);
-
-  // Estados para datos personales
-  const [datosPersonales, setDatosPersonales] = useState({
-    nombres: "Roberto",
-    apellidoPaterno: "Rangel",
-    apellidoMaterno: "Garcia",
-    sexo: "Masculino",
-    fechaNacimiento: "2002-05-15",
-    curp: "RAGR020515HDFNRA01",
-  });
-
-  // Estados para datos de contacto
-  const [datosContacto, setDatosContacto] = useState({
-    celular: "3312345678",
-    telefonoCasa: "3398765432",
-    correo: "roberto.rangel@estudiante.dgeta.edu.mx",
-  });
-
-  // Estados para datos de domicilio
-  const [datosDomicilio, setDatosDomicilio] = useState({
-    codigoPostal: "44100",
-    estado: "Jalisco",
-    municipio: "Guadalajara",
-    localidad: "Guadalajara",
-    colonia: "Centro",
-    calle: "Avenida Hidalgo",
-    numeroExterior: "123",
-    numeroInterior: "A",
-  });
-
-  return (
-    <StudentLayout>
-      <div className="p-6 lg:p-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mi Perfil</h1>
-          <p className="text-gray-600">Administra tu información personal</p>
-        </div>
-
-        {/* Datos Personales Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">Datos Personales</h2>
-              <p className="text-sm text-gray-500 mt-1">Información básica sobre ti</p>
-            </div>
-            {!editandoPersonal && (
-              <button
-                onClick={() => setEditandoPersonal(true)}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
-              >
-                <FaEdit className="w-4 h-4" />
-                Editar
-              </button>
-            )}
-          </div>
-
-          <div className="p-6">
-            <div className="grid grid-cols-1 gap-6">
-              {/* Nombres */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Nombres</label>
-                <input
-                  type="text"
-                  value={datosPersonales.nombres}
-                  onChange={(e) => setDatosPersonales({ ...datosPersonales, nombres: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  readOnly={!editandoPersonal}
-                />
-              </div>
-
-              {/* Apellidos */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Apellido Paterno</label>
-                  <input
-                    type="text"
-                    value={datosPersonales.apellidoPaterno}
-                    onChange={(e) => setDatosPersonales({ ...datosPersonales, apellidoPaterno: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoPersonal}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Apellido Materno</label>
-                  <input
-                    type="text"
-                    value={datosPersonales.apellidoMaterno}
-                    onChange={(e) => setDatosPersonales({ ...datosPersonales, apellidoMaterno: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoPersonal}
-                  />
-                </div>
-              </div>
-
-              {/* Sexo y Fecha de Nacimiento */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Sexo</label>
-                  <select
-                    value={datosPersonales.sexo}
-                    onChange={(e) => setDatosPersonales({ ...datosPersonales, sexo: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    disabled={!editandoPersonal}
-                  >
-                    <option>Masculino</option>
-                    <option>Femenino</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Fecha de nacimiento</label>
-                  <input
-                    type="date"
-                    value={datosPersonales.fechaNacimiento}
-                    onChange={(e) => setDatosPersonales({ ...datosPersonales, fechaNacimiento: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoPersonal}
-                  />
-                </div>
-              </div>
-
-              {/* CURP */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">CURP</label>
-                <input
-                  type="text"
-                  value={datosPersonales.curp}
-                  onChange={(e) => setDatosPersonales({ ...datosPersonales, curp: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all uppercase"
-                  readOnly={!editandoPersonal}
-                  maxLength={18}
-                />
-              </div>
-            </div>
-
-            {/* Botones */}
-            {editandoPersonal && (
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={() => setEditandoPersonal(false)}
-                  className="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-2 rounded-xl hover:bg-gray-300 transition-colors"
-                >
-                  <FaTimes className="w-4 h-4" />
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => setEditandoPersonal(false)}
-                  className="flex items-center gap-2 bg-green-800 text-white px-6 py-2 rounded-xl hover:bg-green-900 transition-colors"
-                >
-                  <FaSave className="w-4 h-4" />
-                  Guardar
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Datos de Contacto Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">Datos de Contacto</h2>
-              <p className="text-sm text-gray-500 mt-1">Tu información de contacto</p>
-            </div>
-            {!editandoContacto && (
-              <button
-                onClick={() => setEditandoContacto(true)}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
-              >
-                <FaEdit className="w-4 h-4" />
-                Editar
-              </button>
-            )}
-          </div>
-
-          <div className="p-6">
-            <div className="grid grid-cols-1 gap-6">
-              {/* Teléfono Celular y Teléfono de Casa */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono Celular</label>
-                  <input
-                    type="tel"
-                    value={datosContacto.celular}
-                    onChange={(e) => setDatosContacto({ ...datosContacto, celular: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoContacto}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Teléfono de Casa</label>
-                  <input
-                    type="tel"
-                    value={datosContacto.telefonoCasa}
-                    onChange={(e) => setDatosContacto({ ...datosContacto, telefonoCasa: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoContacto}
-                  />
-                </div>
-              </div>
-
-              {/* Correo Electrónico */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
-                <input
-                  type="email"
-                  value={datosContacto.correo}
-                  onChange={(e) => setDatosContacto({ ...datosContacto, correo: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  readOnly={!editandoContacto}
-                />
-              </div>
-            </div>
-
-            {/* Botones */}
-            {editandoContacto && (
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={() => setEditandoContacto(false)}
-                  className="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-2 rounded-xl hover:bg-gray-300 transition-colors"
-                >
-                  <FaTimes className="w-4 h-4" />
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => setEditandoContacto(false)}
-                  className="flex items-center gap-2 bg-green-800 text-white px-6 py-2 rounded-xl hover:bg-green-900 transition-colors"
-                >
-                  <FaSave className="w-4 h-4" />
-                  Guardar
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Datos del Domicilio Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="p-6 border-b border-gray-200 flex justify-between items-center">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900">Datos del Domicilio</h2>
-              <p className="text-sm text-gray-500 mt-1">Tu dirección de residencia actual</p>
-            </div>
-            {!editandoDomicilio && (
-              <button
-                onClick={() => setEditandoDomicilio(true)}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
-              >
-                <FaEdit className="w-4 h-4" />
-                Editar
-              </button>
-            )}
-          </div>
-
-          <div className="p-6">
-            <div className="grid grid-cols-1 gap-6">
-              {/* Código Postal y Estado */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Código Postal</label>
-                  <input
-                    type="text"
-                    value={datosDomicilio.codigoPostal}
-                    onChange={(e) => setDatosDomicilio({ ...datosDomicilio, codigoPostal: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoDomicilio}
-                    maxLength={5}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Estado</label>
-                  <input
-                    type="text"
-                    value={datosDomicilio.estado}
-                    onChange={(e) => setDatosDomicilio({ ...datosDomicilio, estado: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoDomicilio}
-                  />
-                </div>
-              </div>
-
-              {/* Municipio y Localidad */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Municipio</label>
-                  <input
-                    type="text"
-                    value={datosDomicilio.municipio}
-                    onChange={(e) => setDatosDomicilio({ ...datosDomicilio, municipio: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoDomicilio}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Localidad</label>
-                  <input
-                    type="text"
-                    value={datosDomicilio.localidad}
-                    onChange={(e) => setDatosDomicilio({ ...datosDomicilio, localidad: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoDomicilio}
-                  />
-                </div>
-              </div>
-
-              {/* Colonia */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Colonia</label>
-                <input
-                  type="text"
-                  value={datosDomicilio.colonia}
-                  onChange={(e) => setDatosDomicilio({ ...datosDomicilio, colonia: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  readOnly={!editandoDomicilio}
-                />
-              </div>
-
-              {/* Calle */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Calle</label>
-                <input
-                  type="text"
-                  value={datosDomicilio.calle}
-                  onChange={(e) => setDatosDomicilio({ ...datosDomicilio, calle: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  readOnly={!editandoDomicilio}
-                />
-              </div>
-
-              {/* Número Exterior e Interior */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Número Exterior</label>
-                  <input
-                    type="text"
-                    value={datosDomicilio.numeroExterior}
-                    onChange={(e) => setDatosDomicilio({ ...datosDomicilio, numeroExterior: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoDomicilio}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Número Interior</label>
-                  <input
-                    type="text"
-                    value={datosDomicilio.numeroInterior}
-                    onChange={(e) => setDatosDomicilio({ ...datosDomicilio, numeroInterior: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                    readOnly={!editandoDomicilio}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Botones */}
-            {editandoDomicilio && (
-              <div className="flex justify-end gap-3 mt-6">
-                <button
-                  onClick={() => setEditandoDomicilio(false)}
-                  className="flex items-center gap-2 bg-gray-200 text-gray-700 px-6 py-2 rounded-xl hover:bg-gray-300 transition-colors"
-                >
-                  <FaTimes className="w-4 h-4" />
-                  Cancelar
-                </button>
-                <button
-                  onClick={() => setEditandoDomicilio(false)}
-                  className="flex items-center gap-2 bg-green-800 text-white px-6 py-2 rounded-xl hover:bg-green-900 transition-colors"
-                >
-                  <FaSave className="w-4 h-4" />
-                  Guardar
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </StudentLayout>
-  );
+interface Field { name: string; label: string; type?: string; options?: string[]; maxLength?: number }
+const sections = {
+  personales: { title: "Datos personales", description: "Información básica sobre ti", fields: [
+    { name: "nombres", label: "Nombres" },
+    { name: "apellidoPaterno", label: "Apellido paterno" },
+    { name: "apellidoMaterno", label: "Apellido materno" },
+    { name: "sexo", label: "Sexo", options: ["Masculino", "Femenino"] },
+    { name: "fechaNacimiento", label: "Fecha de nacimiento", type: "date" },
+    { name: "curp", label: "CURP", maxLength: 18 },
+  ] as Field[] },
+  academicos: { title: "Datos académicos", description: "La administración escolar registra y actualiza estos datos.", fields: [
+    { name: "especialidad", label: "Especialidad/Carrera" },
+    { name: "turno", label: "Turno" },
+    { name: "numeroControl", label: "No. de Control" },
+    { name: "semestre", label: "Semestre" },
+    { name: "grupo", label: "Grupo" },
+    { name: "tutor", label: "Nombre del tutor" },
+  ] as Field[] },
+  contacto: { title: "Datos de contacto", description: "Tus teléfonos y correo electrónico", fields: [
+    { name: "celular", label: "Teléfono celular", type: "tel" },
+    { name: "telefonoCasa", label: "Teléfono de casa", type: "tel" },
+    { name: "correo", label: "Correo electrónico", type: "email" },
+    { name: "emergenciaNombre", label: "Nombre" },
+    { name: "emergenciaApellidoPaterno", label: "Apellido paterno" },
+    { name: "emergenciaApellidoMaterno", label: "Apellido materno" },
+    { name: "emergenciaCelular", label: "Teléfono celular", type: "tel" },
+    { name: "emergenciaParentesco", label: "Parentesco" },
+  ] as Field[] },
+  domicilio: { title: "Datos del domicilio", description: "Tu dirección de residencia actual", fields: [
+    { name: "codigoPostal", label: "Código postal", maxLength: 5 },
+    { name: "estado", label: "Estado" }, { name: "municipio", label: "Municipio" },
+    { name: "localidad", label: "Localidad" }, { name: "colonia", label: "Colonia" },
+    { name: "calle", label: "Calle" }, { name: "numeroExterior", label: "Número exterior" },
+    { name: "numeroInterior", label: "Número interior" },
+  ] as Field[] },
 };
 
-export default PerfilEstudiante;
+function ProfileSection({ section, values, onSave, emergency = false }: { section: Section; values: Values; onSave?: (values: Values) => void; emergency?: boolean }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(values);
+  const [message, setMessage] = useState("");
+  const [saveFailed, setSaveFailed] = useState(false);
+  const editButtonRef = useRef<HTMLButtonElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const config = emergency ? {
+    title: "Familiar en caso de emergencia",
+    description: "La persona a quien podemos contactar si necesitas ayuda.",
+    fields: sections.contacto.fields.filter(field => field.name.startsWith("emergencia")),
+  } : {
+    ...sections[section],
+    fields: sections[section].fields.filter(field => !field.name.startsWith("emergencia")),
+  };
+  const titleId = `profile-${section}${emergency ? '-emergencia' : ''}-title`;
+  const hasChanges = config.fields.some(field => (draft[field.name] ?? "").trim() !== (values[field.name] ?? ""));
+  const finishEditing = () => {
+    setEditing(false);
+    requestAnimationFrame(() => editButtonRef.current?.focus());
+  };
+  const save = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!onSave) return;
+    try {
+      onSave(Object.fromEntries(config.fields.map(field => [field.name, (draft[field.name] ?? "").trim()])));
+    } catch {
+      setSaveFailed(true);
+      setMessage("No se pudo guardar. Revisa el almacenamiento del navegador e inténtalo de nuevo.");
+      return;
+    }
+    setSaveFailed(false);
+    finishEditing();
+    setMessage("Cambios guardados.");
+  };
+  return (
+    <section aria-labelledby={titleId} className="bg-white rounded-xl  border border-gray-200 overflow-hidden">
+      <div className="p-5 sm:p-6 border-b border-gray-200 flex flex-wrap justify-between items-start gap-4">
+        <div className="min-w-0 flex-1 basis-48">
+          <h2 id={titleId} className="text-lg sm:text-xl font-semibold leading-7 text-gray-900">{config.title}</h2>
+          <p className="text-sm leading-6 text-gray-600 mt-1">{config.description}</p>
+        </div>
+        {onSave && !editing && <button ref={editButtonRef} type="button" aria-label={`Editar ${config.title.toLowerCase()}`}
+          onClick={() => {
+            setDraft(values); setEditing(true); setMessage(""); setSaveFailed(false);
+            requestAnimationFrame(() => formRef.current?.querySelector<HTMLInputElement | HTMLSelectElement>("input, select")?.focus());
+          }} className={secondaryButton}>
+          <FaEdit className="h-4 w-4 shrink-0" aria-hidden="true" focusable="false" /><span>Editar</span>
+        </button>}
+        {editing && <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold leading-6 text-green-900">En edición</span>}
+      </div>
+      {editing ? <form ref={formRef} onSubmit={save} aria-labelledby={titleId} className="p-5 sm:p-6">
+
+        <div className="profile-fields grid gap-x-6 gap-y-5">
+          {config.fields.map(field => {
+            const id = `perfil-${section}-${field.name}`;
+            const hint = field.name === "curp" ? "18 caracteres. Las letras se convierten a mayúsculas." : field.name === "codigoPostal" ? "Escribe los 5 dígitos de tu código postal." : field.name === "emergenciaParentesco" ? "Por ejemplo: madre, padre, hermana o abuelo." : field.type === "email" ? "Por ejemplo: nombre@correo.com" : undefined;
+            const className = `${input} min-w-0 leading-6`;
+            const autoComplete = field.type === "email" ? "email" : field.type === "tel" ? (emergency ? "section-emergency tel" : "tel") : field.name === "codigoPostal" ? "postal-code" : field.name === "nombres" ? "given-name" : field.name === "emergenciaNombre" ? "section-emergency given-name" : "off";
+            return <div key={field.name}>
+              <label htmlFor={id} className="block text-sm font-medium text-gray-900 mb-2">{field.label}</label>
+              {field.options ? (
+                <select id={id} name={field.name} value={draft[field.name] ?? ""} className={className} onChange={event => setDraft({ ...draft, [field.name]: event.target.value })}>
+                  <option value="">Selecciona una opción</option>
+                  {field.options.map(option => <option key={option} value={option}>{option}</option>)}
+                </select>
+              ) : (
+                <input id={id} name={field.name} type={field.type ?? "text"} value={draft[field.name] ?? ""} maxLength={field.maxLength}
+                  minLength={field.name === "curp" ? 18 : undefined}
+                  autoComplete={autoComplete} inputMode={field.name === "codigoPostal" ? "numeric" : undefined}
+                  pattern={field.name === "codigoPostal" ? "[0-9]{5}" : undefined}
+                  aria-describedby={hint ? `${id}-hint` : undefined} className={className}
+                  onChange={event => setDraft({ ...draft, [field.name]: field.name === "curp" ? event.target.value.toUpperCase() : event.target.value })} />
+              )}
+              {hint && <p id={`${id}-hint`} className="mt-2 text-sm leading-5 text-gray-600">{hint}</p>}
+            </div>;
+          })}
+        </div>
+        <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 border-t border-gray-200 pt-5 mt-6">
+          <button type="button" onClick={() => { setDraft(values); finishEditing(); setSaveFailed(false); setMessage("Edición cancelada. Se conservaron los datos anteriores."); }} className={secondaryButton}>
+            <FaTimes className="h-4 w-4 shrink-0" aria-hidden="true" focusable="false" /><span>Cancelar</span>
+          </button>
+          <button type="submit" disabled={!hasChanges} className={primaryButton}>
+            <FaSave className="h-4 w-4 shrink-0" aria-hidden="true" focusable="false" /><span>Guardar cambios</span>
+          </button>
+        </div>
+      </form> : <dl className="profile-fields grid gap-x-6 gap-y-6 p-5 sm:p-6">
+        {config.fields.map(field => <div key={field.name} className="min-w-0">
+          <dt className="text-sm font-medium leading-5 text-gray-600">{field.label}</dt>
+          <dd className={`mt-1.5 text-base leading-6 break-words ${values[field.name] ? 'text-gray-900' : 'text-gray-600'}`}>
+            {values[field.name] ? (field.type === "date" ? new Intl.DateTimeFormat("es-MX", { dateStyle: "long" }).format(new Date(`${values[field.name]}T00:00:00`)) : values[field.name]) : "Sin registrar"}
+          </dd>
+        </div>)}
+      </dl>}
+      <div role={saveFailed ? "alert" : "status"} aria-live={saveFailed ? "assertive" : "polite"} aria-atomic="true">
+        {message && <p className={`mx-5 mb-5 text-sm leading-6 sm:mx-6 ${saveFailed ? "text-red-800" : "text-green-800"}`}>{message}</p>}
+      </div>
+    </section>
+  );
+}
+export default function PerfilEstudiante() {
+  const location = useLocation();
+  const [data, setData] = useState(() => readLocal(PROFILE_KEY, initialData));
+  const saveSection = (target: Exclude<Section, "academicos">, values: Values) => {
+    const current = readLocal(PROFILE_KEY, initialData);
+    const next = { ...current, [target]: { ...current[target], ...values } };
+    writeLocal(PROFILE_KEY, next);
+    setData(next);
+  };
+  const section = location.pathname.replace(/^\/estudiante\/perfil\/?/, "");
+  if (!Object.prototype.hasOwnProperty.call(sections, section)) return <Navigate to="/estudiante/perfil/personales" replace />;
+  const selected = section as Section;
+  const onSave = selected === "academicos" ? undefined : (values: Values) => saveSection(selected, values);
+  return <StudentLayout>
+    <div className="ui-page">
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-2">Mi perfil</h1>
+        <p className="text-gray-600">Consulta tu información por apartado.</p>
+      </div>
+      <div className="space-y-6">
+        <ProfileSection key={selected} section={selected} values={data[selected]} onSave={onSave} />
+        {selected === "contacto" && <ProfileSection key="emergencia" section="contacto" emergency values={data.contacto}
+          onSave={values => saveSection("contacto", values)} />}
+      </div>
+    </div>
+  </StudentLayout>;
+}

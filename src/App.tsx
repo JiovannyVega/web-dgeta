@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import AccessLayout from "./components/AccessLayout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -12,6 +13,7 @@ import Mensajes from "./pages/profesor/Mensajes";
 import GrupoDetalles from "./pages/profesor/DetallesDeGrupo";
 import DetallesDeAlumno from "./pages/profesor/PerfilDelEstudiante";
 import PerfilProfesor from "./pages/profesor/PerfilProfesor";
+import FormulariosProfesor from "./pages/profesor/Formularios";
 import PrediccionProfesor from "./pages/profesor/PrediccionEstudiante";
 
 // Páginas de Estudiante
@@ -29,11 +31,13 @@ import PrediccionDaniel from "./pages/daniel/PrediccionEstudiante";
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-grow">
+      <div className="flex-grow">
         <Routes>
           {/* Rutas de autenticación */}
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route element={<AccessLayout />} >
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+          </Route>
 
           {/* Rutas de Profesor */}
           <Route path="/profesor">
@@ -43,6 +47,7 @@ function App() {
             <Route path="calificaciones" element={<Calificaciones />} />
             <Route path="incidencias" element={<Incidencias />} />
             <Route path="tutorias" element={<Tutorias />} />
+            <Route path="formularios" element={<FormulariosProfesor />} />
             <Route path="mensajes" element={<Mensajes />} />
             <Route path="detalles-alumno" element={<DetallesDeAlumno />} />
             <Route path="prediccion" element={<PrediccionProfesor />} />
@@ -57,7 +62,7 @@ function App() {
             <Route path="formularios" element={<EstudianteFormularios />} />
             <Route path="formulario/:id" element={<EstudianteLlenadoFormulario />} />
             <Route path="mensajes" element={<EstudianteMensajes />} />
-            <Route path="perfil" element={<EstudiantePerfil />} />
+            <Route path="perfil/*" element={<EstudiantePerfil />} />
           </Route>
 
           {/* Rutas de Daniel */}
@@ -65,7 +70,7 @@ function App() {
             <Route path="prediccion" element={<PrediccionDaniel />} />
           </Route>
         </Routes>
-      </main>
+      </div>
     </div>
   );
 }

@@ -15,6 +15,7 @@ export const ROUTES = {
         CALIFICACIONES: '/profesor/calificaciones',
         INCIDENCIAS: '/profesor/incidencias',
         TUTORIAS: '/profesor/tutorias',
+        FORMULARIOS: '/profesor/formularios',
         MENSAJES: '/profesor/mensajes',
         DETALLES_ALUMNO: '/profesor/detalles-alumno',
         PREDICCION: '/profesor/prediccion',

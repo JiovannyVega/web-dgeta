@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProfesorLayout from "../../components/layouts/ProfesorLayout";
-import { FaPlus, FaExclamationTriangle } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const Incidencias: React.FC = () => {
   const [filtro, setFiltro] = useState("todas");
@@ -42,9 +42,9 @@ const Incidencias: React.FC = () => {
   const getTipoColor = (tipo: string) => {
     switch (tipo) {
       case "Falta":
-        return "bg-red-100 text-red-700";
+        return "bg-red-100 text-red-800";
       case "Retardo":
-        return "bg-yellow-100 text-yellow-700";
+        return "bg-yellow-100 text-amber-900";
       case "Conducta":
         return "bg-orange-100 text-orange-700";
       default:
@@ -54,29 +54,26 @@ const Incidencias: React.FC = () => {
 
   const getEstadoBadge = (estado: string) => {
     return estado === "pendiente"
-      ? "bg-yellow-100 text-yellow-700"
-      : "bg-green-100 text-green-700";
+      ? "bg-yellow-100 text-amber-900"
+      : "bg-green-100 text-green-900";
   };
 
   return (
     <ProfesorLayout>
-      <div className="p-6 lg:p-8">
+      <div className="ui-page">
         {/* Page Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Incidencias</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Incidencias</h1>
             <p className="text-gray-600">Gestiona y reporta incidencias de estudiantes</p>
           </div>
-          <button className="flex items-center gap-2 bg-green-800 text-white px-6 py-3 rounded-xl hover:bg-green-900 transition-colors">
-            <FaPlus />
-            Nueva Incidencia
-          </button>
+
         </div>
 
         {/* Filters */}
-        <div className="flex gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6">
           <button
-            onClick={() => setFiltro("todas")}
+            aria-pressed={filtro === "todas"} onClick={() => setFiltro("todas")}
             className={`px-4 py-2 rounded-xl font-medium transition-colors ${filtro === "todas"
               ? "bg-green-800 text-white"
               : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
@@ -85,7 +82,7 @@ const Incidencias: React.FC = () => {
             Todas
           </button>
           <button
-            onClick={() => setFiltro("pendiente")}
+            aria-pressed={filtro === "pendiente"} onClick={() => setFiltro("pendiente")}
             className={`px-4 py-2 rounded-xl font-medium transition-colors ${filtro === "pendiente"
               ? "bg-green-800 text-white"
               : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
@@ -94,7 +91,7 @@ const Incidencias: React.FC = () => {
             Pendientes
           </button>
           <button
-            onClick={() => setFiltro("resuelta")}
+            aria-pressed={filtro === "resuelta"} onClick={() => setFiltro("resuelta")}
             className={`px-4 py-2 rounded-xl font-medium transition-colors ${filtro === "resuelta"
               ? "bg-green-800 text-white"
               : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
@@ -109,15 +106,15 @@ const Incidencias: React.FC = () => {
           {incidenciasFiltradas.map((incidencia) => (
             <div
               key={incidencia.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+              className="bg-white rounded-xl  border border-gray-200 p-6"
             >
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
                     <FaExclamationTriangle className="text-red-600 text-xl" />
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
                       <h3 className="font-bold text-gray-900">{incidencia.estudiante}</h3>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${getTipoColor(incidencia.tipo)}`}>
                         {incidencia.tipo}
@@ -130,7 +127,7 @@ const Incidencias: React.FC = () => {
                     <p className="text-sm text-gray-700">{incidencia.descripcion}</p>
                   </div>
                 </div>
-                <span className="text-sm text-gray-500">{incidencia.fecha}</span>
+                <span className="text-sm text-gray-600">{incidencia.fecha}</span>
               </div>
             </div>
           ))}
@@ -138,7 +135,7 @@ const Incidencias: React.FC = () => {
 
         {incidenciasFiltradas.length === 0 && (
           <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-            <p className="text-gray-500">No hay incidencias {filtro !== "todas" ? filtro + "s" : ""}</p>
+            <p className="text-gray-600">No hay incidencias {filtro !== "todas" ? filtro + "s" : ""}</p>
           </div>
         )}
       </div>

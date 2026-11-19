@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Summary } from "../../components/PageUI";
 import StudentLayout from "../../components/layouts/StudentLayout";
 
 interface Materia {
@@ -18,7 +19,7 @@ interface Semestre {
 }
 
 const CalificacionesEstudiante: React.FC = () => {
-  const [semestreActivo] = useState("Primer semestre");
+  const [semestreActivo, setSemestreActivo] = useState("Primer semestre");
 
   // Datos de ejemplo para diferentes semestres
   const semestres: Record<string, Semestre> = {
@@ -132,30 +133,31 @@ const CalificacionesEstudiante: React.FC = () => {
 
   return (
     <StudentLayout>
-      <div className="p-6 lg:p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="ui-page">
+        <div className="min-w-0">
+          <header className="ui-page-heading"><div><h1>Calificaciones</h1><p>Consulta los resultados de cada semestre.</p></div><div><label htmlFor="grade-term" className="mb-2 block text-sm font-medium">Semestre</label><select id="grade-term" value={semestreActivo} onChange={event=>setSemestreActivo(event.target.value)} className="min-h-12 w-full rounded-lg border border-gray-500 bg-white px-3">{Object.keys(semestres).map(term=><option key={term}>{term}</option>)}</select></div></header>
           {/* Grades Table */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div className="overflow-x-auto">
+          <div className="bg-white rounded-xl  border border-gray-200 overflow-hidden">
+            <div className="table-scroll" role="region" aria-label="Tabla de registros" tabIndex={0}>
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Materia
                     </th>
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Parcial 1
                     </th>
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Parcial 2
                     </th>
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Parcial 3
                     </th>
-                    <th className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Cal. Final
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                       Acciones a Emprender
                     </th>
                   </tr>
@@ -171,48 +173,28 @@ const CalificacionesEstudiante: React.FC = () => {
                         </td>
                         <td className="px-6 py-4 text-center">
                           <span
-                            className={`inline-flex items-center justify-center w-10 h-10 rounded-lg text-sm font-semibold ${materia.parcial1 < 6
-                              ? "bg-red-100 text-red-700"
-                              : materia.parcial1 < 8
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-green-100 text-green-700"
-                              }`}
+                            className={`tabular-nums font-semibold ${materia.parcial1 < 6 ? 'text-red-800' : 'text-gray-900'}`}
                           >
                             {materia.parcial1}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-center">
                           <span
-                            className={`inline-flex items-center justify-center w-10 h-10 rounded-lg text-sm font-semibold ${materia.parcial2 < 6
-                              ? "bg-red-100 text-red-700"
-                              : materia.parcial2 < 8
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-green-100 text-green-700"
-                              }`}
+                            className={`tabular-nums font-semibold ${materia.parcial2 < 6 ? 'text-red-800' : 'text-gray-900'}`}
                           >
                             {materia.parcial2}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-center">
                           <span
-                            className={`inline-flex items-center justify-center w-10 h-10 rounded-lg text-sm font-semibold ${materia.parcial3 < 6
-                              ? "bg-red-100 text-red-700"
-                              : materia.parcial3 < 8
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-green-100 text-green-700"
-                              }`}
+                            className={`tabular-nums font-semibold ${materia.parcial3 < 6 ? 'text-red-800' : 'text-gray-900'}`}
                           >
                             {materia.parcial3}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-center">
                           <span
-                            className={`inline-flex items-center justify-center w-12 h-12 rounded-lg text-base font-bold ${materia.calFinal < 6
-                              ? "bg-red-100 text-red-700"
-                              : materia.calFinal < 8
-                                ? "bg-yellow-100 text-yellow-700"
-                                : "bg-green-100 text-green-700"
-                              }`}
+                            className={`tabular-nums font-semibold ${materia.calFinal < 6 ? 'text-red-800' : 'text-gray-900'}`}
                           >
                             {materia.calFinal}
                           </span>
@@ -220,8 +202,8 @@ const CalificacionesEstudiante: React.FC = () => {
                         <td className="px-6 py-4">
                           <span
                             className={`text-sm ${materia.accionesEmprender === "N/A"
-                              ? "text-gray-500"
-                              : "text-blue-600 font-medium"
+                              ? "text-gray-600"
+                              : "text-gray-700 font-medium"
                               }`}
                           >
                             {materia.accionesEmprender}
@@ -233,12 +215,10 @@ const CalificacionesEstudiante: React.FC = () => {
                     <tr>
                       <td
                         colSpan={6}
-                        className="px-6 py-12 text-center text-gray-500"
+                        className="px-6 py-12 text-center text-gray-600"
                       >
                         <div className="flex flex-col items-center">
-                          <span className="material-icons-outlined text-5xl text-gray-300 mb-3">
-                            assignment
-                          </span>
+
                           <p className="text-lg font-medium">
                             No hay calificaciones disponibles
                           </p>
@@ -258,9 +238,7 @@ const CalificacionesEstudiante: React.FC = () => {
             {semestreData.materias.length > 0 && (
               <div className="bg-gray-50 border-t border-gray-200 px-6 py-4">
                 <div className="flex items-center">
-                  <span className="material-icons-outlined text-gray-600 mr-2">
-                    person
-                  </span>
+
                   <span className="text-sm text-gray-600">
                     Tutor:{" "}
                     <span className="font-semibold text-gray-900">
@@ -272,74 +250,7 @@ const CalificacionesEstudiante: React.FC = () => {
             )}
           </div>
 
-          {/* Info Cards */}
-          {semestreData.materias.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
-                <div className="flex items-center">
-                  <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                    <span className="material-icons text-blue-600 text-2xl">
-                      assignment
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-600 mb-1">
-                      Total de Materias
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {semestreData.materias.length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
-                <div className="flex items-center">
-                  <div className="bg-green-100 p-3 rounded-lg mr-4">
-                    <span className="material-icons text-green-600 text-2xl">
-                      check_circle
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-600 mb-1">
-                      Materias Aprobadas
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {
-                        semestreData.materias.filter((m) => m.calFinal >= 6)
-                          .length
-                      }
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
-                <div className="flex items-center">
-                  <div className="bg-yellow-100 p-3 rounded-lg mr-4">
-                    <span className="material-icons text-yellow-600 text-2xl">
-                      star
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-600 mb-1">
-                      Promedio General
-                    </p>
-                    <p className="text-2xl font-bold text-gray-900">
-                      {semestreData.materias.length > 0
-                        ? (
-                          semestreData.materias.reduce(
-                            (sum, m) => sum + m.calFinal,
-                            0
-                          ) / semestreData.materias.length
-                        ).toFixed(1)
-                        : "0.0"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          <Summary items={[{label:'Materias',value:semestreData.materias.length},{label:'Aprobadas',value:semestreData.materias.filter(m=>m.calFinal>=6).length},{label:'Promedio',value:semestreData.materias.length?(semestreData.materias.reduce((sum,m)=>sum+m.calFinal,0)/semestreData.materias.length).toFixed(1):'—'}]}/>
         </div>
       </div>
     </StudentLayout>

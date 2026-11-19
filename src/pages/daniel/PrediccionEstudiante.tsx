@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ProfesorLayout from "../../components/layouts/ProfesorLayout";
 
 interface FormularioPrediccion {
   // Datos binarios (0-1)
@@ -122,25 +123,24 @@ const PrediccionEstudiante: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1>Predicción de Rendimiento Estudiantil</h1>
-        <p>Complete los datos del estudiante para obtener las predicciones</p>
+    <ProfesorLayout><div className="dashboard-container ui-page">
+      <div className="ui-page-heading"><div>
+        <h1>Simulación de seguimiento</h1>
+        <p>Consulta una estimación orientativa a partir de los valores capturados.</p></div>
       </div>
 
       <div
         className="dashboard-content"
-        style={{ maxWidth: "900px", margin: "0 auto" }}
       >
         <form onSubmit={handleSubmit} className="prediccion-form">
           {/* Sección: Datos Personales */}
           <div className="form-section">
-            <h2>Datos Personales</h2>
+            <h2>Datos personales</h2>
             <div className="form-grid">
               <div className="form-group">
-                <label>Asistencia Diurna/Nocturna</label>
+                <label htmlFor="prediction-daytimeEveningAttendance">Asistencia Diurna/Nocturna</label>
                 <select
-                  name="daytimeEveningAttendance"
+                  id="prediction-daytimeEveningAttendance" name="daytimeEveningAttendance"
                   value={formData.daytimeEveningAttendance}
                   onChange={handleInputChange}
                   required
@@ -151,9 +151,9 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>Género</label>
+                <label htmlFor="prediction-gender">Género</label>
                 <select
-                  name="gender"
+                  id="prediction-gender" name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
                   required
@@ -164,9 +164,9 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>¿Tiene beca?</label>
+                <label htmlFor="prediction-scholarshipHolder">¿Tiene beca?</label>
                 <select
-                  name="scholarshipHolder"
+                  id="prediction-scholarshipHolder" name="scholarshipHolder"
                   value={formData.scholarshipHolder}
                   onChange={handleInputChange}
                   required
@@ -177,9 +177,9 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>¿Es internacional?</label>
+                <label htmlFor="prediction-international">¿Es internacional?</label>
                 <select
-                  name="international"
+                  id="prediction-international" name="international"
                   value={formData.international}
                   onChange={handleInputChange}
                   required
@@ -190,9 +190,9 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>¿Tiene deudas académicas?</label>
+                <label htmlFor="prediction-debtor">¿Tiene deudas académicas?</label>
                 <select
-                  name="debtor"
+                  id="prediction-debtor" name="debtor"
                   value={formData.debtor}
                   onChange={handleInputChange}
                   required
@@ -203,9 +203,9 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>¿Estudiante desplazado?</label>
+                <label htmlFor="prediction-displaced">¿Estudiante desplazado?</label>
                 <select
-                  name="displaced"
+                  id="prediction-displaced" name="displaced"
                   value={formData.displaced}
                   onChange={handleInputChange}
                   required
@@ -216,9 +216,9 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>¿Necesidades educativas especiales?</label>
+                <label htmlFor="prediction-educationalSpecialNeeds">¿Necesidades educativas especiales?</label>
                 <select
-                  name="educationalSpecialNeeds"
+                  id="prediction-educationalSpecialNeeds" name="educationalSpecialNeeds"
                   value={formData.educationalSpecialNeeds}
                   onChange={handleInputChange}
                   required
@@ -232,13 +232,13 @@ const PrediccionEstudiante: React.FC = () => {
 
           {/* Sección: Datos Académicos */}
           <div className="form-section">
-            <h2>Datos Académicos del 1er Semestre</h2>
+            <h2>Datos académicos del primer semestre</h2>
             <div className="form-grid">
               <div className="form-group">
-                <label>Materias inscritas (0-26)</label>
+                <label htmlFor="prediction-curricularUnits1stSemEnrolled">Materias inscritas (0-26)</label>
                 <input
                   type="number"
-                  name="curricularUnits1stSemEnrolled"
+                  id="prediction-curricularUnits1stSemEnrolled" name="curricularUnits1stSemEnrolled"
                   value={formData.curricularUnits1stSemEnrolled}
                   onChange={handleInputChange}
                   min="0"
@@ -248,10 +248,10 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>Evaluaciones realizadas (0-45)</label>
+                <label htmlFor="prediction-curricularUnits1stSemEvaluations">Evaluaciones realizadas (0-45)</label>
                 <input
                   type="number"
-                  name="curricularUnits1stSemEvaluations"
+                  id="prediction-curricularUnits1stSemEvaluations" name="curricularUnits1stSemEvaluations"
                   value={formData.curricularUnits1stSemEvaluations}
                   onChange={handleInputChange}
                   min="0"
@@ -261,10 +261,10 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>Materias aprobadas (0-26)</label>
+                <label htmlFor="prediction-curricularUnits1stSemApproved">Materias aprobadas (0-26)</label>
                 <input
                   type="number"
-                  name="curricularUnits1stSemApproved"
+                  id="prediction-curricularUnits1stSemApproved" name="curricularUnits1stSemApproved"
                   value={formData.curricularUnits1stSemApproved}
                   onChange={handleInputChange}
                   min="0"
@@ -274,10 +274,10 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>Promedio de calificaciones (0.0-18.875)</label>
+                <label htmlFor="prediction-curricularUnits1stSemGrade">Promedio de calificaciones (0.0-18.875)</label>
                 <input
                   type="number"
-                  name="curricularUnits1stSemGrade"
+                  id="prediction-curricularUnits1stSemGrade" name="curricularUnits1stSemGrade"
                   value={formData.curricularUnits1stSemGrade}
                   onChange={handleInputChange}
                   min="0"
@@ -288,10 +288,10 @@ const PrediccionEstudiante: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>Materias sin evaluación (0-12)</label>
+                <label htmlFor="prediction-curricularUnits1stSemWithoutEvaluations">Materias sin evaluación (0-12)</label>
                 <input
                   type="number"
-                  name="curricularUnits1stSemWithoutEvaluations"
+                  id="prediction-curricularUnits1stSemWithoutEvaluations" name="curricularUnits1stSemWithoutEvaluations"
                   value={formData.curricularUnits1stSemWithoutEvaluations}
                   onChange={handleInputChange}
                   min="0"
@@ -316,7 +316,7 @@ const PrediccionEstudiante: React.FC = () => {
         {/* Resultados de Predicción */}
         {prediccion.abandonoEscuela && (
           <div className="prediccion-resultados">
-            <h2>Resultados de la Predicción</h2>
+            <h2>Resultado de simulación</h2>
 
             <div className="resultado-card">
               <div
@@ -353,27 +353,27 @@ const PrediccionEstudiante: React.FC = () => {
               <ul>
                 {prediccion.abandonoEscuela === "Sí" && (
                   <li className="recomendacion-urgente">
-                    🚨 Alto riesgo de abandono. Se recomienda intervención
+                    Alto riesgo de abandono. Se recomienda intervención
                     inmediata con tutorías y apoyo psicopedagógico.
                   </li>
                 )}
                 {prediccion.reprobaraOPasara === "Reprobará" && (
                   <li className="recomendacion-importante">
-                    ⚠️ Riesgo de reprobar. Considere asesorías adicionales y
+                    Riesgo de reprobar. Considere asesorías adicionales y
                     seguimiento personalizado.
                   </li>
                 )}
                 {prediccion.calificacionEstimada &&
                   prediccion.calificacionEstimada < 6 && (
                     <li className="recomendacion-importante">
-                      📚 Calificación por debajo del mínimo. Reforzar
+                      Calificación por debajo del mínimo. Reforzar
                       conocimientos básicos de la materia.
                     </li>
                   )}
                 {prediccion.abandonoEscuela === "No" &&
                   prediccion.reprobaraOPasara === "Pasará" && (
                     <li className="recomendacion-positiva">
-                      ✅ El estudiante muestra buen rendimiento. Mantener el
+                      El estudiante muestra buen rendimiento. Mantener el
                       seguimiento regular.
                     </li>
                   )}
@@ -388,7 +388,7 @@ const PrediccionEstudiante: React.FC = () => {
           background: white;
           border-radius: 8px;
           padding: 24px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          border: 1px solid #e5e7eb;
           margin-bottom: 24px;
         }
 
@@ -397,16 +397,17 @@ const PrediccionEstudiante: React.FC = () => {
         }
 
         .form-section h2 {
-          color: #1a237e;
-          font-size: 20px;
+          color: #111827;
+          font-size: 18px;
+          font-weight: 600;
           margin-bottom: 16px;
           padding-bottom: 8px;
-          border-bottom: 2px solid #e8eaf6;
+          border-bottom: 2px solid #e5e7eb;
         }
 
         .form-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
           gap: 16px;
         }
 
@@ -426,15 +427,15 @@ const PrediccionEstudiante: React.FC = () => {
         .form-group select {
           padding: 10px;
           border: 1px solid #ddd;
-          border-radius: 4px;
-          font-size: 14px;
+          border-radius: 8px;
+          font-size: 16px;
           transition: border-color 0.3s;
         }
 
         .form-group input:focus,
         .form-group select:focus {
-          outline: none;
-          border-color: #1a237e;
+          outline: 2px solid #166534; outline-offset: 2px;
+          border-color: #166534;
         }
 
         .form-actions {
@@ -448,7 +449,7 @@ const PrediccionEstudiante: React.FC = () => {
         .btn-secondary {
           padding: 12px 32px;
           border: none;
-          border-radius: 4px;
+          border-radius: 8px;
           font-size: 16px;
           font-weight: 500;
           cursor: pointer;
@@ -456,14 +457,14 @@ const PrediccionEstudiante: React.FC = () => {
         }
 
         .btn-primary {
-          background: #1a237e;
+          background: #166534;
           color: white;
         }
 
         .btn-primary:hover:not(:disabled) {
-          background: #0d1654;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+          background: #14532d;
+
+
         }
 
         .btn-primary:disabled {
@@ -484,18 +485,18 @@ const PrediccionEstudiante: React.FC = () => {
           background: white;
           border-radius: 8px;
           padding: 24px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          border: 1px solid #e5e7eb;
         }
 
         .prediccion-resultados h2 {
-          color: #1a237e;
+          color: #166534;
           margin-bottom: 20px;
           text-align: center;
         }
 
         .resultado-card {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
           gap: 16px;
           margin-bottom: 24px;
         }
@@ -523,7 +524,7 @@ const PrediccionEstudiante: React.FC = () => {
         }
 
         .resultado-valor.calificacion {
-          color: #1a237e;
+          color: #166534;
         }
 
         .alerta-alta {
@@ -541,7 +542,7 @@ const PrediccionEstudiante: React.FC = () => {
         }
 
         .alerta-media .resultado-valor {
-          color: #e65100;
+          color: #92400e;
         }
 
         .alerta-baja {
@@ -557,11 +558,11 @@ const PrediccionEstudiante: React.FC = () => {
           background: #f5f5f5;
           padding: 20px;
           border-radius: 8px;
-          border-left: 4px solid #1a237e;
+          border-left: 4px solid #166534;
         }
 
         .recomendaciones h3 {
-          color: #1a237e;
+          color: #166534;
           margin-bottom: 16px;
           font-size: 18px;
         }
@@ -575,7 +576,7 @@ const PrediccionEstudiante: React.FC = () => {
         .recomendaciones li {
           padding: 12px;
           margin-bottom: 8px;
-          border-radius: 4px;
+          border-radius: 8px;
           font-size: 14px;
           line-height: 1.6;
         }
@@ -588,7 +589,7 @@ const PrediccionEstudiante: React.FC = () => {
 
         .recomendacion-importante {
           background: #fff3e0;
-          color: #e65100;
+          color: #92400e;
           border-left: 4px solid #ff9800;
         }
 
@@ -617,7 +618,7 @@ const PrediccionEstudiante: React.FC = () => {
           }
         }
       `}</style>
-    </div>
+    </div></ProfesorLayout>
   );
 };
 

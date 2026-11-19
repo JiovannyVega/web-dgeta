@@ -19,23 +19,29 @@ const Calificaciones: React.FC = () => {
     estudiante.matricula.includes(searchTerm)
   );
 
+  const exportGrades = () => {
+    const rows = [['Estudiante','Matrícula','Parcial 1','Parcial 2','Parcial 3','Promedio'], ...estudiantesFiltrados.map(e=>[e.nombre,e.matricula,e.parcial1,e.parcial2,e.parcial3,e.promedio])];
+    const csv = rows.map(row=>row.map(value=>'"'+String(value).replaceAll('"','""')+'"').join(',')).join('\r\n');
+    const url = URL.createObjectURL(new Blob(['\uFEFF'+csv], {type:'text/csv;charset=utf-8'}));
+    const anchor=document.createElement('a'); anchor.href=url; anchor.download='calificaciones.csv'; anchor.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  };
   const getCalificacionColor = (calif: number) => {
-    if (calif >= 9) return "text-green-600";
-    if (calif >= 8) return "text-blue-600";
-    if (calif >= 7) return "text-yellow-600";
+    if (calif >= 9) return "text-green-800";
+    if (calif >= 8) return "text-gray-700";
+    if (calif >= 7) return "text-amber-800";
     return "text-red-600";
   };
 
   return (
     <ProfesorLayout>
-      <div className="p-6 lg:p-8">
+      <div className="ui-page">
         {/* Page Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Calificaciones</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Calificaciones</h1>
             <p className="text-gray-600">Gestiona las calificaciones de tus grupos</p>
           </div>
-          <button className="flex items-center gap-2 bg-green-800 text-white px-6 py-3 rounded-xl hover:bg-green-900 transition-colors">
+          <button type="button" onClick={exportGrades} className="flex items-center gap-2 bg-green-800 text-white px-6 py-3 rounded-xl hover:bg-green-900 transition-colors">
             <FaFileExport />
             Exportar
           </button>
@@ -43,10 +49,10 @@ const Calificaciones: React.FC = () => {
 
         {/* Group Selector */}
         <div className="mb-6">
-          <select
+          <label htmlFor="tutor-group" className="mb-2 block text-sm font-medium">Grupo</label><select id="tutor-group"
             value={grupoSeleccionado}
             onChange={(e) => setGrupoSeleccionado(e.target.value)}
-            className="w-full md:w-auto px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            className="w-full md:w-auto px-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-800 "
           >
             <option value="matematicas-3a">Matemáticas 3-A</option>
             <option value="algebra-3b">Álgebra Lineal 3-B</option>
@@ -61,42 +67,42 @@ const Calificaciones: React.FC = () => {
             <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Buscar estudiante..."
+              aria-label="Buscar estudiante" placeholder="Buscar estudiante..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full pl-12 pr-4 py-3 bg-white border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-800 "
             />
           </div>
         </div>
 
         {/* Grades Table */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="overflow-x-auto">
+        <div className="bg-white rounded-xl  border border-gray-200 overflow-hidden">
+          <div className="table-scroll" role="region" aria-label="Tabla de registros" tabIndex={0}>
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                     Estudiante
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                     Matrícula
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                     Parcial 1
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                     Parcial 2
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                     Parcial 3
                   </th>
-                  <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-600 uppercase tracking-wider">
                     Promedio
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {estudiantesFiltrados.map((estudiante) => (
+                {!estudiantesFiltrados.length && <tr><td colSpan={6} className="p-6 text-center text-sm text-gray-600">No se encontraron alumnos. Prueba otra búsqueda.</td></tr>}{estudiantesFiltrados.map((estudiante) => (
                   <tr key={estudiante.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <p className="font-medium text-gray-900">{estudiante.nombre}</p>

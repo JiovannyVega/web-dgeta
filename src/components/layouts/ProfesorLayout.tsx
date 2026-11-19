@@ -20,26 +20,27 @@ interface ProfesorLayoutProps {
 
 const ProfesorLayout: React.FC<ProfesorLayoutProps> = ({ children }) => {
     const profesorMenuItems: MenuItem[] = [
-        { path: "/profesor/dashboard", icon: FaChartLine, label: "Dashboard" },
-        { path: "/profesor/misgrupos", icon: FaUsers, label: "Mis Grupos" },
+        { path: "/profesor/dashboard", icon: FaChartLine, label: "Inicio" },
+        { path: "/profesor/misgrupos", icon: FaUsers, label: "Mis grupos" },
         { path: "/profesor/calificaciones", icon: FaStar, label: "Calificaciones" },
         { path: "/profesor/incidencias", icon: FaExclamationTriangle, label: "Incidencias" },
         { path: "/profesor/tutorias", icon: FaGraduationCap, label: "Tutorías" },
+        { path: "/profesor/formularios", icon: FaGraduationCap, label: "Formularios" },
         { path: "/profesor/mensajes", icon: FaEnvelope, label: "Mensajes" },
-        { path: "/profesor/prediccion", icon: FaChartBar, label: "Predicción" },
-        { path: "/profesor/perfil", icon: FaUser, label: "Perfil" },
+        { path: "/profesor/prediccion", icon: FaChartBar, label: "Seguimiento" },
+        { path: "/profesor/perfil", icon: FaUser, label: "Mi perfil" },
     ];
 
     return (
-        <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="app-shell">
             <Sidebar
-                userName="Prof. García"
-                userRole="Profesor"
+                userName="Dra. María López Pérez"
+                userRole="Tutor"
                 menuItems={profesorMenuItems}
             />
-            <div className="flex-1 flex flex-col">
+            <div className="min-w-0 flex-1 flex flex-col">
                 <Header />
-                <main className="flex-1 overflow-y-auto">
+                <main id="page-content" tabIndex={-1} className="app-content focus:outline-none">
                     {children}
                 </main>
             </div>
